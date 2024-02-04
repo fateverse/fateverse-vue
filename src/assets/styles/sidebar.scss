@@ -1,0 +1,43 @@
+.logo {
+  height: 106px;
+  background-color: #418DFF;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.port-link{
+  display: block;
+  width: 200px;
+  height: 50px;
+  margin-left: -40px;
+  padding-left: 40px;
+}
+.el-menu {
+  border: none !important;
+  .el-sub-menu {
+    .el-sub-menu__title {
+      display: block;
+      font-size: 14px;
+      &:hover{
+        //background-color: #1F315F;
+      }
+    }
+
+    .el-menu-item {
+      font-size: 14px;
+      justify-content: flex-start;
+      align-items: center;
+      &:hover {
+        //background-color: #373350 !important;
+        //color: #EDC49A;
+      }
+    }
+    .el-menu-item.is-active {
+      background: #E9F4FF;
+      //background-color: #373350 !important;
+    }
+  }
+}

@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+}
+
+
+/* ==============X轴/Y轴区域样式=============*/
+.box-card-h {
+  height: 390px !important;
+}
+.box-card::-webkit-scrollbar {
+  width: 6px;
+}
+
+// 滚动条轨道
+.box-card::-webkit-scrollbar-track {
+  background: rgb(239, 239, 239);
+  border-radius: 2px;
+}
+
+// 小滑块
+.box-card::-webkit-scrollbar-thumb {
+  background: rgba(80, 81, 82, 0.29);
+  border-radius: 10px;
+}
+.box-card {
+  font-size: 15px;
+  height: 350px;
+  overflow-y: auto;
+
+  .el-card__body {
+    padding: 15px;
+  }
+
+  .x-y-axis {
+    margin-bottom: 10px;
+  }
+
+  .list-group {
+    height: 100%;
+  }
+
+  .cards {
+    margin-bottom: 10px;
+
+    span:last-child {
+      color: #2a99ff;
+    }
+
+    .update-color {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      > span{
+        white-space: pre
+      }
+
+    }
+  }
+
+  .card-active {
+    outline: none; /* 隐藏默认的蓝色外边框 */
+    box-shadow: 0 0 5px blue; /* 添加阴影效果，颜色为蓝色 */
+  }
+
+  .x-y-cards {
+    .el-card__body {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 50px;
+    }
+
+    .cards-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      > span:first-child {
+        color: #2a99ff;
+      }
+    }
+  }
+}
+//扩大拖拽区域
+.drag-block {
+  height: 329px;
+}
+.red-bgc {
+  background-color: red;
+}
+
+.yellow-bgc {
+  background-color: yellow;
+}
+
+/* ==============基础设置样式=============*/
+.basic-setup {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.setting {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  .setting-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .setting-item {
+    margin-bottom: 10px;
+  }
+}
+/* ==============高级设置样式=============*/
+.advanced-setting{
+  .el-form-item {
+    display: block;
+
+    .el-form-item__label {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .el-form-item__content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 15px;
+    }
+  }
+}
+/* ==============echarts样式=============*/
+#container {
+  box-sizing: border-box;
+  height: 450px;
+  width: 80%;
+  margin: 0 auto;
+}

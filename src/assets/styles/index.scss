@@ -458,6 +458,8 @@ html, body, #app, .el-container, .el-aside, .el-main {
     }
   }
 }
-.el-select__wrapper {
-  width: 200px;
+.el-form-item__content{
+  .el-select__wrapper {
+    width: 200px;
+  }
 }

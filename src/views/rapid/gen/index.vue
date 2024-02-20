@@ -30,13 +30,13 @@
         </el-config-provider>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="handleSearch()" :icon="Search">搜索</el-button>
+        <el-button type="primary" @click="getList" :icon="Search">搜索</el-button>
         <el-button @click="handleReset" :icon="Refresh">重置</el-button>
       </el-form-item>
     </el-form>
 
     <div class="query-btn">
-      <el-button type="primary" plain :icon="UploadFilled" :disabled="disabled" @click="handleImport()">导入</el-button>
+      <el-button type="primary" plain :icon="UploadFilled"  @click="handleImport()">导入</el-button>
       <el-button type="warning" @click="handleExport" :icon="Download" plain :disabled="disabled">导出</el-button>
       <el-button type="danger" :icon="Delete"
                  @click="handleMoreDelete(tableId,tableName)" :disabled="disabled" plain>删除
@@ -104,8 +104,6 @@ import {getDataSourceOption} from '@/api/rapid/data-source'
 import {downLoadZip} from "@/utils/downloadZip";
 import {Search, Refresh, Delete, Edit, View, Download, CopyDocument, UploadFilled} from '@element-plus/icons-vue'
 import Paging from "@/components/pagination/index.vue";
-
-const router = useRouter()
 import ImportTable from './importTable.vue'
 import java from 'highlight.js/lib/languages/java'
 import xml from 'highlight.js/lib/languages/xml'
@@ -126,7 +124,8 @@ hljs.registerLanguage("tsx", javascript);
 hljs.registerLanguage("js", javascript);
 hljs.registerLanguage("sql", sql);
 
-
+const router = useRouter()
+const dsId = reactive(router.currentRoute.value.params.dsId)
 const queryParams = reactive({
   dataSourceId: null,
   dataSourceType: '',
@@ -186,7 +185,12 @@ const preview = ref({
 const importTableRef = ref(null)
 const title = ref('')
 const {toClipboard} = useClipboard()
-
+onMounted(()=>{
+  if(dsId){
+    queryParams.dataSourceId = parseInt(dsId)
+    getList()
+  }
+})
 const clipboardSuccess = (value) => {
   try {
     toClipboard(value)
@@ -261,10 +265,6 @@ const getList = async () => {
   })
 }
 
-//搜索功能
-const handleSearch = async () => {
-  await getList()
-}
 //重置功能
 const handleReset = () => {
   genForm.value.resetFields()

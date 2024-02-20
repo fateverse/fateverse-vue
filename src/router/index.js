@@ -91,6 +91,15 @@ const router = createRouter({
             breadcrumb: false
           }
         },
+        {
+          path: '/rapid/data/:dsId(\\d+)',
+          name: 'rapid',
+          component: ()=>import('@/views/rapid/gen/index.vue'),
+          meta: {
+            title: '数据源关联数据',
+            breadcrumb: true
+          }
+        },
       ]
     },
     {

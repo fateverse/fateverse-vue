@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="isVisited" title="导入表" width="1000px">
-    <el-form :model="queryParams" inline class="login-log-form" ref="dataSourceFrom">
+    <el-form :model="queryParams" inline class="query-form" ref="dataSourceFrom" style="margin: 0">
       <el-form-item label="数据源" prop="businessType">
         <el-select v-model="queryParams.dataSourceId" placeholder="数据源" clearable filterable>
           <el-option

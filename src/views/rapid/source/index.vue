@@ -38,9 +38,10 @@
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="创建时间" align="center"/>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template #default="scope">
-            <el-button type="primary" size="mini" @click="handleEdit(scope.row.dsId)"  link>编辑</el-button>
+            <el-button type="primary" size="mini" @click="handleEdit(scope.row.dsId)" link>编辑</el-button>
+            <el-button type="primary" size="mini" @click="handleAssociatedData(scope.row.dsId)" link>关联数据</el-button>
             <popover-delete :name="scope.row.dsName" :type="'数据源信息'"
                             @delete="handleDelete(scope.row.dsId)"/>
           </template>
@@ -152,6 +153,7 @@ import {ElMessage, ElMessageBox} from "element-plus";
 import {nextTick} from 'vue'
 import Paging from "@/components/pagination/index.vue";
 
+const router = useRouter()
 const queryParams = reactive({
   dsName: '',
 })
@@ -295,7 +297,9 @@ const handleAdd = () => {
     formInstance.value.clearValidate()
   })
 }
-
+const handleAssociatedData = (dsId) => {
+  router.push('/rapid/data/' + dsId)
+}
 const handleEdit = async (dsId) => {
   restFrom()
   getDataSource(dsId).then(res => {

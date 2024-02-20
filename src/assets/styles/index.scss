@@ -86,7 +86,9 @@ html, body, #app, .el-container, .el-aside, .el-main {
   align-items: center;
   margin-bottom: 10px;
 }
-
+.el-dialog__body{
+  padding: 10px 20px;
+}
 .stateIcon {
   margin-top: 9px;
   margin-right: 7px;
@@ -98,7 +100,7 @@ html, body, #app, .el-container, .el-aside, .el-main {
 }
 
 .query-form {
-  margin-left: 14px;
+  //margin-left: 14px;
   margin-top: 15px;
 
   .el-tag__content {
@@ -427,10 +429,12 @@ html, body, #app, .el-container, .el-aside, .el-main {
   overflow: hidden;
   margin-right: 5px;
 }
+
 .disabled-icon:hover {
   cursor: not-allowed;
 }
-.black-icon{
+
+.black-icon {
   width: 1.2em;
   height: 1.2em;
   vertical-align: -0.15em;
@@ -438,6 +442,7 @@ html, body, #app, .el-container, .el-aside, .el-main {
   overflow: hidden;
   margin-right: 5px;
 }
+
 .middle-icon {
   width: 1.4em;
   height: 1.4em;
@@ -500,14 +505,16 @@ html, body, #app, .el-container, .el-aside, .el-main {
     }
   }
 }
-.query-form{
-  .el-form-item__content{
+
+.query-form {
+  .el-form-item__content {
     .el-select__wrapper {
       width: 200px;
     }
   }
 
 }
-.el-pagination{
+
+.el-pagination {
   margin-top: 10px;
 }

@@ -38,7 +38,9 @@
     <div class="query-btn">
       <el-button type="primary" plain :icon="UploadFilled" :disabled="disabled" @click="handleImport()">导入</el-button>
       <el-button type="warning" @click="handleExport" :icon="Download" plain :disabled="disabled">导出</el-button>
-      <!--    <el-button type="danger" @click="handleDelete" :icon="Delete" plain :disabled="disabled">删除</el-button>-->
+      <el-button type="danger" :icon="Delete"
+                 @click="handleMoreDelete(tableId,tableName)" :disabled="disabled" plain>删除
+      </el-button>
     </div>
 
     <div class="table">
@@ -46,24 +48,27 @@
           :data="list"
           :lazy="true"
           v-loading="loading"
+          @select="handleSelect"
+          v-tabh
       >
+        <el-table-column type="selection" width="55"/>
         <el-table-column label="序号" type="index" align="center" width="60"/>
-        <el-table-column prop="tableName" label="表名称"  align="center"/>
-        <el-table-column prop="tableComment" label="表描述"  align="center"/>
+        <el-table-column prop="tableName" label="表名称" align="center"/>
+        <el-table-column prop="tableComment" label="表描述" align="center"/>
         <el-table-column prop="className" label="实体类" align="center"/>
         <el-table-column prop="dataSourceId" label="数据源" align="center">
           <template #default="scope">
-            <el-tag >{{ getDataSourceOptionItem(scope.row.dataSourceId) }}</el-tag>
+            <el-tag>{{ getDataSourceOptionItem(scope.row.dataSourceId) }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间"  sortable align="center"/>
-        <el-table-column prop="updateTime" label="更新时间"  sortable align="center"/>
+        <el-table-column prop="createTime" label="创建时间" sortable align="center"/>
+        <el-table-column prop="updateTime" label="更新时间" sortable align="center"/>
         <el-table-column label="操作" width="260" align="center">
           <template #default="scope">
             <el-button type="primary" size="mini" @click="handlePreview(scope.row.tableId)" link>预览</el-button>
             <el-button type="primary" size="mini" @click="handleEdit(scope.row.tableId)" link>编辑</el-button>
             <el-button type="primary" size="mini"
-                       @click="handleSynchronization(scope.row.tableId)" link >同步
+                       @click="handleSynchronization(scope.row.tableId)" link>同步
             </el-button>
             <el-button type="primary" size="mini" @click="handleDownLoad(scope.row.tableId)" link>下载
             </el-button>
@@ -94,7 +99,7 @@
 </template>
 
 <script setup>
-import {getTableList, deleteTable, previewCode} from "@/api/rapid/code-gen";
+import {getTableList, deleteTable, deleteMoreTable, previewCode} from "@/api/rapid/code-gen";
 import {getDataSourceOption} from '@/api/rapid/data-source'
 import {downLoadZip} from "@/utils/downloadZip";
 import {Search, Refresh, Delete, Edit, View, Download, CopyDocument, UploadFilled} from '@element-plus/icons-vue'
@@ -134,7 +139,9 @@ const pageInfo = reactive({
   pageNum: 1,
   pageSize: 10
 })
-
+const disabled = ref(true)
+const tableId = ref()
+const tableName = ref()
 const list = ref([])
 const loading = ref(true)
 const total = ref()
@@ -179,6 +186,7 @@ const preview = ref({
 const importTableRef = ref(null)
 const title = ref('')
 const {toClipboard} = useClipboard()
+
 const clipboardSuccess = (value) => {
   try {
     toClipboard(value)
@@ -275,8 +283,17 @@ const handleCurrentChange = (val) => {
   pageInfo.pageNum = val
   getList()
 }
-
-const handleDeleteTable = async (tableId) => {
+//勾选table数据行的 Checkbox
+const handleSelect = async (selection) => {
+  if (selection.length !== 0) {
+    disabled.value = false
+    tableId.value = selection.map(item => item.tableId).join()
+    tableName.value = selection.map(item => item.tableName).join()
+  } else {
+    disabled.value = true
+  }
+}
+const handleDeleteTable = (tableId) => {
   deleteTable(tableId).then(res => {
     if (res.code === 1000) {
       ElMessage.success(res.msg)
@@ -286,7 +303,25 @@ const handleDeleteTable = async (tableId) => {
     }
   })
 }
-
+//多删
+const handleMoreDelete = (tableId, tableName) => {
+  ElMessageBox.confirm(`确认删除名称为${tableName}的表格吗?`, '系统提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    deleteMoreTable({
+      tables: tableId
+    }).then(res => {
+      if (res.code === 1000) {
+        ElMessage.success(res.msg)
+        getList()
+      } else {
+        ElMessage.error(res.msg)
+      }
+    })
+  })
+}
 //预览功能
 const handlePreview = async (tableId) => {
   previewCode(tableId).then(res => {

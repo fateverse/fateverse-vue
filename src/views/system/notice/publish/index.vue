@@ -40,6 +40,7 @@
           row-key="noticeId"
           :lazy="true"
           v-loading="loading"
+          v-tabh
       >
         <el-table-column label="序号" type="index" align="center" width="60"/>
         <el-table-column prop="noticeTitle" label="公告标题" align="center"/>

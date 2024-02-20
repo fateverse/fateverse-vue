@@ -39,6 +39,7 @@
         ref="table"
         v-loading="loading"
         @select="handleSelect"
+        v-tabh
     >
       <el-table-column type="selection" width="55"/>
       <el-table-column prop="userName" label="用户名称" align="center"/>

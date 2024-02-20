@@ -30,6 +30,21 @@ html, body, #app, .el-container, .el-aside, .el-main {
   // -webkit-transition: width .15s;
   // transition: width 0.15s;
   width: calc(100vw - 200px);
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  // 滚动条轨道
+  &::-webkit-scrollbar-track {
+    background: rgb(239, 239, 239);
+    border-radius: 2px;
+  }
+
+  // 小滑块
+  &::-webkit-scrollbar-thumb {
+    background: rgba(80, 81, 82, 0.29);
+    border-radius: 10px;
+  }
 }
 
 .main-collapse {
@@ -84,6 +99,7 @@ html, body, #app, .el-container, .el-aside, .el-main {
 
 .query-form {
   margin-left: 14px;
+  margin-top: 15px;
 
   .el-tag__content {
     font-size: 14px;
@@ -121,7 +137,7 @@ html, body, #app, .el-container, .el-aside, .el-main {
 
 .table {
   //margin-top: 15px;
-
+  //margin-bottom: 20px;
   .el-tag {
     .el-tag__content {
       font-size: 13px;
@@ -148,7 +164,7 @@ html, body, #app, .el-container, .el-aside, .el-main {
     }
   }
 
-  margin-bottom: 20px;
+
 }
 
 .dialog-form {
@@ -266,13 +282,35 @@ html, body, #app, .el-container, .el-aside, .el-main {
 .layout {
   display: flex;
   justify-content: space-around;
-  height: 84vh;
+  .scrollbar-user {
+    height: calc(100vh - 250px)!important;
+    overflow: auto!important;
+  }
 
   .scrollbar-dict {
     border: 1px solid #ebeef5;
-    height: 68vh;
+    //min-height: 30vh;
+    //height: 60vh;
+    height: calc(100vh - 300px);
     overflow-y: auto;
     overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    // 滚动条轨道
+    &::-webkit-scrollbar-track {
+      background: rgb(239, 239, 239);
+      border-radius: 2px;
+    }
+
+    // 小滑块
+    &::-webkit-scrollbar-thumb {
+      background: rgba(80, 81, 82, 0.29);
+      border-radius: 10px;
+    }
 
     .el-tree--highlight-current
     .el-tree-node.is-current
@@ -288,7 +326,7 @@ html, body, #app, .el-container, .el-aside, .el-main {
     width: 30%;
     //border: 1px solid #ebeef5;
     padding: 10px;
-
+    margin-top: 5px;
 
     .dict-tree {
       width: 100%;
@@ -307,10 +345,12 @@ html, body, #app, .el-container, .el-aside, .el-main {
   }
 
   .layout-right {
-    width: 70%;
+    //width: 70%;
     //border: 1px solid #ebeef5;
     margin-left: 10px;
-    padding: 10px
+    padding: 0 10px;
+    width: 80%;
+    border: none;
   }
 }
 
@@ -327,8 +367,8 @@ html, body, #app, .el-container, .el-aside, .el-main {
 //放大缩小按钮上外边距
 .scale {
   margin-top: 10px;
-  z-index: 1;
-  position: fixed;
+  z-index: 666;
+  position: absolute;
 }
 
 .el-overlay-dialog {
@@ -364,7 +404,8 @@ html, body, #app, .el-container, .el-aside, .el-main {
   overflow: hidden;
   margin-right: 5px;
 }
-.er-icon{
+
+.er-icon {
   cursor: pointer;
   width: 1.2em;
   height: 1.2em;
@@ -372,7 +413,8 @@ html, body, #app, .el-container, .el-aside, .el-main {
   fill: currentColor;
   overflow: hidden;
   margin-right: 5px;
-  &:hover{
+
+  &:hover {
     border: 1px solid darkgray;
   }
 }
@@ -458,8 +500,14 @@ html, body, #app, .el-container, .el-aside, .el-main {
     }
   }
 }
-.el-form-item__content{
-  .el-select__wrapper {
-    width: 200px;
+.query-form{
+  .el-form-item__content{
+    .el-select__wrapper {
+      width: 200px;
+    }
   }
+
+}
+.el-pagination{
+  margin-top: 10px;
 }

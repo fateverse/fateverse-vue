@@ -1,20 +1,20 @@
 <template>
   <div>
-    <el-form :model="queryParams" inline class="query-form" ref="sourceForm">
-      <el-form-item label="数据源名称" prop="title">
+    <el-form :model="queryParams" inline class="query-form" ref="sourceForm" @submit.prevent="getList">
+      <el-form-item label="数据源名称" prop="dsName">
         <el-input v-model="queryParams.dsName" placeholder="请输入数据源名称" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="handleSearch()" :icon="Search">搜索</el-button>
+        <el-button type="primary" @click="getList" :icon="Search">搜索</el-button>
         <el-button @click="handleReset" :icon="Refresh">重置</el-button>
       </el-form-item>
     </el-form>
     <div class="query-btn">
       <el-button type="primary" @click="handleAdd" :icon="Plus" plain>新增</el-button>
+      <el-button type="warning" @click="handleExport" :icon="Download" plain>导出</el-button>
       <el-button type="danger" @click="handleMoreDelete(sourceId,sourceNameList)" :icon="Delete" plain
                  :disabled="disabled">删除
       </el-button>
-      <el-button type="danger" @click="handleExport" :icon="Download" plain>导出</el-button>
     </div>
     <div class="table">
       <el-table
@@ -24,6 +24,7 @@
           ref="singleTable"
           v-loading="loading"
           @select="handleSelect"
+          v-tabh
       >
         <el-table-column type="selection" width="55"/>
         <el-table-column label="序号" type="index" width="60" align="center"/>
@@ -188,10 +189,6 @@ const formRules = ref({
     namespace: [{required: true, message: '请输入命名空间', trigger: 'blur'}]
   }
 })
-//搜索功能
-const handleSearch = () => {
-  getList()
-}
 
 const handleReset = () => {
   sourceForm.value.resetFields()

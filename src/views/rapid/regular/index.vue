@@ -27,10 +27,10 @@
     </el-form>
     <div class="query-btn">
       <el-button type="primary" v-perm="['rapid:regular:add']" @click="handleAdd" :icon="Plus" plain>新增</el-button>
+      <el-button type="warning" v-perm="['rapid:regular:export']" @click="handleExport" :icon="Download" plain>导出
+      </el-button>
       <el-button type="danger" v-perm="['rapid:regular:del']" @click="handleMoreDelete(regularId,regularNameList)" :icon="Delete" plain
                  :disabled="disabled">删除
-      </el-button>
-      <el-button type="warning" v-perm="['rapid:regular:export']" @click="handleExport" :icon="Download" plain>导出
       </el-button>
     </div>
     <div class="table">
@@ -41,6 +41,7 @@
           ref="singleTable"
           v-loading="loading"
           @select="handleSelect"
+          v-tabh
       >
         <el-table-column type="selection" width="55"/>
         <el-table-column label="序号" type="index" align="center" width="60"/>

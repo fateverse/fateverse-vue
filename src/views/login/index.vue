@@ -29,7 +29,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { getCodeImg } from '../../api/login';
-import {onMounted,onUnmounted} from 'vue'
 import { useAuthStore } from '@/stores/userstore'
 import { ElLoading } from 'element-plus'
 import { User,Lock, Key } from '@element-plus/icons-vue'

@@ -15,13 +15,14 @@
 <!--    <div class="query-btn">-->
 <!--      <el-button type="danger" @click="handleDelete" :icon="Delete" plain :disabled="disabled">删除</el-button>-->
 <!--    </div>-->
-    <div class="table">
+    <div class="table" style="margin-top: 15px">
       <el-table
           :data="list"
           row-key="tokenId"
           :lazy="true"
           ref="singleTable"
           v-loading="loading"
+          v-tabh
       >
 <!--        <el-table-column type="selection" width="55" align="center"/>-->
 <!--        <el-table-column prop="tokenId" label="会话id" align="center"/>-->

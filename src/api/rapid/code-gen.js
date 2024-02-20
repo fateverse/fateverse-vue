@@ -31,6 +31,13 @@ export const previewCode = (tableId) => {
 }
 
 
+export const deleteMoreTable = (params) => {
+    return request({
+        url: '/code-gen/table',
+        method: 'delete',
+        params
+    })
+}
 export const deleteTable = (tableId) => {
     return request({
         url: `/code-gen/table/${tableId}`,

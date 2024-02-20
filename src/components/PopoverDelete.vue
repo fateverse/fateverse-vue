@@ -9,7 +9,9 @@
       @cancel="handleCancel"
   >
     <template #reference>
-      <el-button :type="btnType" size="mini" v-perm="perm" :disabled="isDisabled" :icon="btnIcon" :plain="isPlain">{{btnText}}</el-button>
+      <el-button :type="btnType" size="mini" v-perm="perm" :disabled="isDisabled" :icon="btnIcon" :plain="isPlain">
+        {{ btnText }}
+      </el-button>
     </template>
   </el-popconfirm>
 </template>
@@ -50,10 +52,10 @@ const props = defineProps({
   },
 })
 const emit = defineEmits()
-const title = ref(`确认${props.btnText}名称为 "${props.name}" 的${props.type}吗!`)
+const title = ref(`确认${props.btnText}名称为"${props.name}"的${props.type}吗!`)
 const visible = ref(false)
-watch(()=>props.name,(newVal)=>{
-  title.value="确认"+props.btnText+"名称为"+'"'+props.name+'"'+"的"+props.type+"吗!"
+watch(() => props.name, (newVal) => {
+  title.value = "确认" + props.btnText + "名称为" + '"' + props.name + '"' + "的" + props.type + "吗!"
 })
 const handleCancel = () => {
   visible.value = false

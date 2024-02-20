@@ -1,15 +1,18 @@
 <template>
-  <el-tag v-if="tagConfig.isType" :type="tagConfig.listClass" :effect="tagConfig.theme || 'plain'">
-    {{ filterDict(cacheStore.getDict(dictType), value) }}
-  </el-tag>
-  <el-tag v-else :color="tagConfig.listClass" :effect="tagConfig.theme || 'plain'">
-    {{ filterDict(cacheStore.getDict(dictType), value) }}
-  </el-tag>
+  <div class="tag-style">
+    <el-tag v-if="tagConfig.isType" :type="tagConfig.listClass" :effect="tagConfig.theme || 'plain'">
+      {{ filterDict(cacheStore.getDict(dictType), value) }}
+    </el-tag>
+    <el-tag v-else :color="tagConfig.listClass" :effect="tagConfig.theme || 'plain'">
+      {{ filterDict(cacheStore.getDict(dictType), value) }}
+    </el-tag>
+  </div>
 </template>
 
 <script setup>
-import { useCacheStore } from "@/stores/cache.js";
-import { defineProps, nextTick } from "vue";
+import {useCacheStore} from "@/stores/cache.js";
+import {defineProps, nextTick} from "vue";
+
 const cacheStore = useCacheStore();
 
 const props = defineProps({
@@ -27,14 +30,22 @@ const props = defineProps({
 const tagConfig = ref({})
 
 const filterDict = (data, value) => {
-  if(!data) return
-  if(data instanceof Array) {
-    if(value==true||value==false){
-      tagConfig.value = data.find(item=>item.value == value.toString())
-    }else {
+  if (!data) return
+  if (data instanceof Array) {
+    if (value == true || value == false) {
+      tagConfig.value = data.find(item => item.value == value.toString())
+    } else {
       tagConfig.value = data.find(item => item.value == value)
     }
   }
   return tagConfig.value.label
 }
 </script>
+
+<style scoped lang="scss">
+.tag-style {
+  :deep(.el-tag.el-tag--dark) {
+    border-color: transparent !important;
+  }
+}
+</style>

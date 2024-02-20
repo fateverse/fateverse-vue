@@ -38,7 +38,7 @@
           </el-tree>
         </div>
       </div>
-      <div class="layout-right">
+      <div class="layout-right" style="margin-top: 15px;">
         <div class="query-btn">
           <el-button type="primary" v-perm="['dict:data:add']" @click="handleAddData" :icon="Plus" plain>新增</el-button>
         </div>
@@ -54,12 +54,10 @@
           <el-table
               :data="list"
               row-key="dictId"
-              border
-              height="62vh"
               ref="singleTable"
               v-loading="loading"
               :header-cell-style="{'background':'#f5f7fa'}"
-
+              v-tabh
           >
             <!--            <el-table-column prop="dictType" label="字典类型" align="center"/>-->
             <el-table-column prop="dictLabel" label="字典标签" align="center"/>
@@ -571,4 +569,9 @@ const handleCurrentChange = (val) => {
 };
 getTreeList();
 </script>
+<style scoped lang="scss">
+:deep(.el-tag) {
+  border-color: transparent !important;
+}
+</style>
 

@@ -1,12 +1,13 @@
 <template>
   <div class="layout">
-    <div class="layout-left" style="width: 20%;border:none">
+    <div class="layout-left" style="width: 20%;border:none;">
       <el-form :model="queryDept" @submit.prevent>
         <el-form-item prop="dictType">
           <el-input v-model="queryDept.deptName" placeholder="请输入部门名称" :prefix-icon="Search"
                     clearable @clear="handleSearchDept" @input="handleSearchDept"></el-input>
         </el-form-item>
       </el-form>
+      <div class="scrollbar-user scrollbar-dict">
       <el-tree :data="deptList" :props="deptProps" empty-text="" node-key="value" default-expand-all
                highlight-current :expand-on-click-node="false"
                @node-click="handle">
@@ -14,8 +15,9 @@
           {{ node.label }}
         </template>
       </el-tree>
+        </div>
     </div>
-    <div class="layout-right" style="width: 80%;border:none">
+    <div class="layout-right">
       <el-form :model="queryParams" class="query-form" inline ref="userForm">
         <el-form-item label="用户名称" prop="userName">
           <el-input

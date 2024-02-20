@@ -24,7 +24,8 @@
     </el-form>
     <div class="query-btn">
       <el-button type="primary" v-perm="['admin:config:add']" @click="handleAdd" :icon="Plus" plain>新增</el-button>
-      <el-button type="danger" v-perm="['admin:config:del']" @click="handleMoreDelete(configIds,configNameList)" :icon="Delete" plain
+      <el-button type="danger" v-perm="['admin:config:del']" @click="handleMoreDelete(configIds,configNameList)"
+                 :icon="Delete" plain
                  :disabled="disabled">删除
       </el-button>
       <el-button type="warning" v-perm="['admin:config:export']" @click="handleExport" :icon="Download" plain>导出
@@ -37,7 +38,9 @@
           :lazy="true"
           ref="singleTable"
           v-loading="loading"
-          @select="handleSelect">
+          @select="handleSelect"
+          v-tabh
+      >
         <el-table-column type="selection" width="55"/>
         <el-table-column label="序号" type="index" width="60"/>
         <el-table-column prop="configName" label="参数名称" align="center"/>
@@ -52,7 +55,7 @@
         <el-table-column label="操作">
           <template #default="scope">
             <el-button type="primary" size="mini" v-perm="['admin:config:edit']"
-                       @click="handleEdit(scope.row.configId)"  link>编辑
+                       @click="handleEdit(scope.row.configId)" link>编辑
             </el-button>
             <popover-delete :name="scope.row.dsName" :type="'参数配置表'" :perm="['admin:config:del']"
                             @delete="handleDelete(scope.row.configId)"/>
@@ -280,7 +283,7 @@ const handleCurrentChange = async (val) => {
   pageInfo.value.pageNum = val
   await getList()
 }
-const handleMoreDelete = (configId,configName) => {
+const handleMoreDelete = (configId, configName) => {
   ElMessageBox.confirm(`确认删除名称为${configName}的参数配置表吗?`, '系统提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',

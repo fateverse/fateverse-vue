@@ -37,6 +37,7 @@
         ref="table"
         v-loading="loading"
         @select="handleSelect"
+        v-tabh
     >
       <el-table-column type="selection" width="55"/>
       <el-table-column label="序号" type="index" align="center" width="60"/>

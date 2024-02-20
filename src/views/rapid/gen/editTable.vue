@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card style="margin-top: 15px">
     <el-tabs v-model="activeName">
       <el-tab-pane label="基本信息" name="info">
         <basic-info-form :info="info" ref="infoRef"/>

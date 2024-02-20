@@ -42,7 +42,8 @@
       <el-table-column prop="createTime" label="创建时间"/>
       <el-table-column label="操作">
         <template #default="scope">
-          <el-button type="primary" size="mini" @click="handleAdd(scope.row)" link>新增</el-button>
+          <el-button type="primary" v-if="scope.row.menuType!=='B'" size="mini" @click="handleAdd(scope.row)" link>新增</el-button>
+          <div v-else style="display: inline-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
           <el-button type="primary" size="mini" @click="handleEdit(scope.row.menuId)" link>修改</el-button>
           <el-button type="primary" size="mini" @click="handleAssignRoles(scope.row)" link>分配角色</el-button>
           <popover-delete :name="scope.row.menuName" :type="'菜单'" @delete="handleDel(scope.row.menuId)"/>
@@ -199,7 +200,7 @@ const form = ref({
   menuType: 'D',
   icon: '',
   menuName: '',
-  orderNum: '',
+  orderNum: 0,
   visible: '0',
   state: '1',
   isCache: '0',
@@ -242,7 +243,7 @@ const restFrom = () => {
     menuType: 'D',
     icon: '',
     menuName: '',
-    orderNum: '',
+    orderNum: 0,
     visible: '0',
     state: '1',
     isCache: '0',
@@ -258,7 +259,7 @@ const handleAdd = async (row) => {
   restFrom()
   if (row.menuId !== undefined) {
     await getMenuInfo(row.menuId).then(res => {
-      form.value.parentId = res.data.parentId
+      form.value.parentId = res.data.menuId
     })
   }
   await getMenuOpt().then(res => {
@@ -306,7 +307,6 @@ const handleEdit = async (menuId) => {
       }else {
         res.data.isCache='1'
       }
-    console.log('res',res.data)
     form.value = {...res.data}
   })
   await getMenuOpt(menuId).then(res => {
@@ -326,7 +326,6 @@ const handleEdit = async (menuId) => {
 const handleDel = (menuId) => {
   delMenu(menuId).then(res => {
     if (res.code === 1000) {
-      loading.value=false
       ElMessage.success(res.msg)
       getList()
     } else {
@@ -373,7 +372,7 @@ const handleCancel = () => {
     menuType: 'D',
     icon: '',
     menuName: '',
-    orderNum: '',
+    orderNum: 0,
     visible: '0',
     state: '1',
     isCache: '0',

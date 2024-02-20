@@ -19,13 +19,14 @@
 <style lang="scss">
 .app-main-container {
   height:calc(100vh - 130px);
-  padding: 15px;
+  padding:0 15px;
   max-height: calc(100vh - 96px);
   overflow: auto;
   background-color: #fff;
 }
 .app-main-container::-webkit-scrollbar {
   width:6px;
+  height: 6px;
 }
 
 // 滚动条轨道

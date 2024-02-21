@@ -258,7 +258,7 @@ const handleEdit = async (configId) => {
 }
 //导出excel
 const handleExport = () => {
-  downLoadExcel('/admin/admin/config/export', {...queryParams})
+  downLoadExcel('/admin/config/export', {...queryParams})
 }
 
 //勾选table数据行的 Checkbox

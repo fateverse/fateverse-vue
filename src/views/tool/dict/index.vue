@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="layout">
-      <div class="layout-left ">
+      <div class="layout-left">
         <div class="query-btn">
           <el-button type="primary" v-perm="['dict:type:add']" @click="handleAddType" :icon="Plus" plain>新增</el-button>
           <!--        <el-button type="warning" v-perm="['dict:type:export']" @click="handleExport" :icon="Download" plain>导出-->

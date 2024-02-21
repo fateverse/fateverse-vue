@@ -44,12 +44,12 @@
       >
         <el-table-column type="selection" width="80"/>
         <el-table-column prop="tableName" label="表名称" align="center"/>
-        <el-table-column prop="tableComment" label="表描述"  align="center"/>
+        <el-table-column prop="tableComment" label="表描述" align="center"/>
         <el-table-column prop="createTime" label="创建时间" sortable align="center"/>
         <el-table-column prop="updateTime" label="更新时间" sortable align="center"/>
         <el-table-column label="操作">
           <template #default="scope">
-            <el-button type="primary" size="mini" @click="handleImport(scope.row)"  link>导入</el-button>
+            <el-button type="primary" size="mini" @click="handleImport(scope.row)" link>导入</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -90,7 +90,11 @@ const props = defineProps({
   dataSourceOption: {
     type: Array,
     default: []
-  }
+  },
+  queryId: {
+    type: Number,
+    default: 0
+  },
 })
 
 const searchTableSearch = async () => {
@@ -105,7 +109,7 @@ const searchTableSearch = async () => {
       list.value = res.data.rows
       total.value = res.data.total
       loading.value = false
-    }else {
+    } else {
       ElMessage.error(res.msg)
     }
   })
@@ -118,7 +122,7 @@ const handleImportTable = async (data) => {
       ElMessage.success(res.msg)
       isVisited.value = false
       emit("importSuccess")
-    }else {
+    } else {
       ElMessage.error(res.msg)
     }
   })
@@ -167,7 +171,11 @@ const handleCurrentChange = async (val) => {
 
 const show = () => {
   isVisited.value = true
-  queryParams.dataSourceId = props.dataSourceOption[0].value
+  if (props.queryId !== null) {
+    queryParams.dataSourceId = props.queryId
+  } else {
+    queryParams.dataSourceId = props.dataSourceOption[0].value
+  }
   searchTableSearch()
 }
 

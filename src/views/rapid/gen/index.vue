@@ -36,8 +36,9 @@
     </el-form>
 
     <div class="query-btn">
-      <el-button type="primary" plain :icon="UploadFilled"  @click="handleImport()">导入</el-button>
-      <el-button type="warning" @click="handleExport" :icon="Download" plain :disabled="disabled">导出</el-button>
+      <el-button type="primary" plain :icon="UploadFilled" @click="handleImport(queryParams.dataSourceId)">导入
+      </el-button>
+      <el-button type="warning" @click="handleExport" :icon="Download" plain>导出</el-button>
       <el-button type="danger" :icon="Delete"
                  @click="handleMoreDelete(tableId,tableName)" :disabled="disabled" plain>删除
       </el-button>
@@ -58,7 +59,10 @@
         <el-table-column prop="className" label="实体类" align="center"/>
         <el-table-column prop="dataSourceId" label="数据源" align="center">
           <template #default="scope">
-            <el-tag>{{ getDataSourceOptionItem(scope.row.dataSourceId) }}</el-tag>
+            <el-tag v-if="getDataSourceOptionItem(scope.row.dataSourceId)!==''">
+              {{ getDataSourceOptionItem(scope.row.dataSourceId) }}
+            </el-tag>
+            <span v-else></span>
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="创建时间" sortable align="center"/>
@@ -80,7 +84,8 @@
     </div>
     <paging :current-page="pageInfo.pageNum" :page-size="pageInfo.pageSize" :page-sizes="[10, 20, 30, 40,50]"
             :total="total" @changeSize="handleSizeChange" @goPage="handleCurrentChange"/>
-    <import-table ref="importTableRef" :data-source-option="dataSourceOption" @importSuccess="getList"/>
+    <import-table ref="importTableRef" :data-source-option="dataSourceOption" :query-id="importQueryId"
+                  @importSuccess="getList"/>
 
     <el-dialog v-model="preview.isVisited" title="预览代码" width="1500px">
       <el-tabs v-model="preview.activeName" class="demo-tabs">
@@ -114,6 +119,7 @@ import "highlight.js/styles/github-gist.css";
 import {ElMessage, ElMessageBox} from "element-plus";
 import useClipboard from "vue-clipboard3"
 import {syncDatabase} from "@/api/rapid/code-gen";
+import {downLoadExcel} from "@/utils/downloadZip";
 
 hljs.registerLanguage("java", java);
 hljs.registerLanguage("xml", xml);
@@ -139,6 +145,7 @@ const pageInfo = reactive({
   pageSize: 10
 })
 const disabled = ref(true)
+const importQueryId = ref()
 const tableId = ref()
 const tableName = ref()
 const list = ref([])
@@ -185,12 +192,15 @@ const preview = ref({
 const importTableRef = ref(null)
 const title = ref('')
 const {toClipboard} = useClipboard()
-onMounted(()=>{
-  if(dsId){
+onMounted(() => {
+  if (dsId) {
     queryParams.dataSourceId = parseInt(dsId)
     getList()
   }
 })
+const handleExport = () => {
+  downLoadExcel('/code-gen/table/export', {...queryParams})
+}
 const clipboardSuccess = (value) => {
   try {
     toClipboard(value)
@@ -337,8 +347,9 @@ const handlePreview = async (tableId) => {
     }
   })
 }
-const handleImport = async () => {
+const handleImport = async (val) => {
   title.value = "导入数据源"
+  importQueryId.value = val
   nextTick(() => {
     importTableRef.value.show()
   })

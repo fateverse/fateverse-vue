@@ -31,7 +31,11 @@
         <el-table-column prop="dsName" label="数据源名称" align="center"/>
         <el-table-column prop="dbName" label="数据库名称" align="center"/>
         <el-table-column prop="username" label="用户名称" align="center"/>
-        <el-table-column prop="jdbcUrl" label="数据库连接url" align="center" width="140"/>
+        <el-table-column prop="jdbcUrl" label="数据库连接url" align="center" width="140">
+          <template #default="scope">
+            <div class="formatterJdbcUrl">{{ scope.row.jdbcUrl }}</div>
+          </template>
+        </el-table-column>
         <el-table-column prop="confType" label="数据源配置类型" align="center">
           <template #default="scope">
             <tag dict-type="data_source_config" :value="scope.row.confType"/>
@@ -150,8 +154,8 @@ import {
 } from "@/api/rapid/data-source";
 import {Search, Refresh, Delete, Plus, Edit, Download} from '@element-plus/icons-vue'
 import {ElMessage, ElMessageBox} from "element-plus";
-import {nextTick} from 'vue'
 import Paging from "@/components/pagination/index.vue";
+import {downLoadExcel} from "@/utils/downloadZip";
 
 const router = useRouter()
 const queryParams = reactive({
@@ -319,7 +323,7 @@ const handleEdit = async (dsId) => {
 }
 
 const handleExport = () => {
-
+  downLoadExcel('/code-gen/data-source/export', {...queryParams})
 }
 
 //勾选table数据行的 Checkbox
@@ -367,5 +371,10 @@ getList()
 </script>
 
 <style scoped>
-
+.formatterJdbcUrl {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
 </style>

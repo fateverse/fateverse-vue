@@ -305,8 +305,10 @@ const router = useRouter();
 
 const switchIsType = (val, dataForm) => {
   if (val) {
+    dataForm.isType=true
     dataForm.listClass = 'primary'
   } else {
+    dataForm.isType=false
     dataForm.listClass = '#ecf5ff'
   }
 }
@@ -536,6 +538,9 @@ const handleDictDataSubmit = async (instance) => {
         }
       });
     } else if (dataTitle.value === "编辑字典数据表") {
+      if(dataForm.value.isType===null){
+        dataForm.value.isType=false;
+      }
       editDictData(dataForm.value).then(res => {
         if (res.code === 1000) {
           ElMessage.success(res.msg);
@@ -570,7 +575,7 @@ const handleCurrentChange = (val) => {
 getTreeList();
 </script>
 <style scoped lang="scss">
-:deep(.el-tag) {
+:deep(.el-tag.el-tag--dark) {
   border-color: transparent !important;
 }
 </style>

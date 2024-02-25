@@ -38,7 +38,6 @@ const tag = reactive({
 //   }
 // };
 const filterDictClass = (data, value) => {
-  console.log(data,'data');
   if(!data) return
 
   if(data instanceof Array) {
@@ -47,7 +46,6 @@ const filterDictClass = (data, value) => {
   return changeParams(tag.value.listClass)
 }
 const filterDict = (data, value) => {
-  console.log(data,'data');
   if(!data) return
 
   if(data instanceof Array) {

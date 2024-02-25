@@ -3,7 +3,8 @@
     <el-tag v-if="tagConfig.isType" :type="tagConfig.listClass" :effect="tagConfig.theme || 'plain'">
       {{ filterDict(cacheStore.getDict(dictType), value) }}
     </el-tag>
-    <el-tag v-else :color="tagConfig.listClass" :effect="tagConfig.theme || 'plain'">
+    <el-tag v-else :color="tagConfig.listClass" :effect="tagConfig.theme || 'plain'"
+            :class="{'null-tag':filterDict(cacheStore.getDict(dictType), value)===undefined}">
       {{ filterDict(cacheStore.getDict(dictType), value) }}
     </el-tag>
   </div>
@@ -34,6 +35,12 @@ const filterDict = (data, value) => {
   if (data instanceof Array) {
     if (value == true || value == false) {
       tagConfig.value = data.find(item => item.value == value.toString())
+    } else if (typeof value === "object") {
+      if (value !== null) {
+        tagConfig.value = data.find(item => item.value == value[0])
+      } else {
+        tagConfig.value = {}
+      }
     } else {
       tagConfig.value = data.find(item => item.value == value)
     }
@@ -46,6 +53,11 @@ const filterDict = (data, value) => {
 .tag-style {
   :deep(.el-tag.el-tag--dark) {
     border-color: transparent !important;
+  }
+
+  .null-tag {
+    border-color: transparent;
+    background-color: transparent;
   }
 }
 </style>

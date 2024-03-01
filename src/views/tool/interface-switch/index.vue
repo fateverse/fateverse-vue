@@ -53,9 +53,10 @@
         </el-table-column>
         <el-table-column prop="uris" label="uris" align="center" width="200px" :formatter="formatterUris" :show-overflow-tooltip="true"/>
         <el-table-column prop="httpMethods" label="方法类型" align="center" width="100px">
-          <!-- <template #default="scope">
-            <tag dict-type="http_method" :value="arrayToString(scope.row.httpMethods)"/>
-          </template> -->
+          <template #default="{ row }">
+            <tag v-if="row.httpMethods" dict-type="http_method" :value="arrayToString(row.httpMethods)"/>
+            <span v-else></span>
+          </template>
         </el-table-column>
         <el-table-column prop="operName" label="操作人" align="center"/>
         <el-table-column prop="operTime" label="变更时间" align="center"/>

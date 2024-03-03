@@ -1,7 +1,7 @@
 <template>
   <!-- 有子菜单 -->
   <template v-for="item in menuItem" :key="item.path">
-    <el-sub-menu v-if="item?.children?.length>0" :index="item.path">
+    <el-sub-menu v-if="item?.children?.length>0 && !item.hidden" :index="item.path">
       <template #title>
         <svg-icon :name="item.icon"/>
         <span>{{ item.title }}</span>

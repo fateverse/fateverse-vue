@@ -19,8 +19,10 @@
       <el-button type="primary" @click="handleAdd" :icon="Plus">新增</el-button>
       <el-button type="info" @click="handleExpand" :icon="Sort">{{ isExpand ? '全部收起' : '全部展开' }}</el-button>
     </div>
+
     <el-table :data="list" ref="tableTree" :default-expand-all="isExpand"
               :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" row-key="menuId" :lazy="true"
+              @cell-click="cellClick"
               v-loading="loading" v-tabh>
       <el-table-column prop="menuName" label="菜单名称"/>
       <el-table-column prop="icon" label="图标" width="60px">
@@ -40,7 +42,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间"/>
-      <el-table-column label="操作">
+      <el-table-column label="操作" prop="operation">
         <template #default="scope">
           <el-button type="primary" v-if="scope.row.menuType!=='B'" size="mini" @click="handleAdd(scope.row)" link>新增</el-button>
           <div v-else style="display: inline-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -197,7 +199,7 @@ const isVisited = ref(false)
 const title = ref('')
 const form = ref({
   parentId: '',
-  menuType: 'D',
+  menuType: 'B',
   icon: '',
   menuName: '',
   orderNum: 0,
@@ -224,6 +226,7 @@ const getSelectIcon = (val) => {
   form.value.icon = val
 }
 
+
 const getList = async () => {
   loading.value = true
   getMenuList(queryParams).then(res => {
@@ -240,11 +243,11 @@ const handleReset = (instance) => {
 const restFrom = () => {
   form.value = {
     parentId: '',
-    menuType: 'D',
+    menuType: 'B',
     icon: '',
     menuName: '',
     orderNum: 0,
-    visible: '0',
+    visible: '1',
     state: '1',
     isCache: '0',
     isFrame: '0', //是否外链
@@ -254,6 +257,13 @@ const restFrom = () => {
     component: ''
   }
 }
+
+const cellClick = (row,column) => {
+  if ("operation" !== column.property){
+    tableTree.value.toggleRowExpansion(row)
+  }
+}
+
 const handleAdd = async (row) => {
   title.value = '新增菜单'
   restFrom()

@@ -3,7 +3,6 @@
     <el-popover
         :width="300"
         trigger="click"
-        :disabled="total===0"
         placement="bottom"
         popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 10px;"
     >
@@ -15,12 +14,16 @@
         </el-badge>
       </template>
       <template #default>
-        <ul>
+        <div v-if="total===0" style="height: 100px;display: flex;align-items: center;justify-content: center">
+          暂无数据~
+        </div>
+        <ul v-else>
           <li v-for="(notice,index) in noticeList" :key="index">
             <span @click="handleToNotifyDetail(notice,index)">{{ notice.noticeTitle }}</span>
             <span v-if="notice.state==='0'" @click="handleRead(notice)">已读</span>
           </li>
         </ul>
+
         <div class="notify-btn">
           <el-button type="primary" @click="handlePrevious" :disabled="pageInfo.pageNum===1" link>上一页</el-button>
           <span @click="handleMoreRead">本页已读</span>
@@ -50,8 +53,6 @@ import {getNotifyList, getNotifyDetail, readAllNotify, readSingleNotify} from "@
 import {getToken} from '@/utils/auth'
 import {ElMessage} from "element-plus";
 import {useRouter} from "vue-router";
-// import {defineExpose} from "vue";
-
 const router = useRouter()
 const pageInfo = reactive({
   pageNum: 1,
@@ -100,6 +101,9 @@ const initWebSocket = () => {
       let data = JSON.parse(event.data)
       if (data.type === 'notice') {
         noticeList.value.push(data.notice)
+        total.value += 1
+      } else if(!data.type&&data.cluster==="notice"){
+        noticeList.value.push(data)
         total.value += 1
       }
       // console.log("服务器返回的信息: ", JSON.parse(event.data));

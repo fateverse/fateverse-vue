@@ -3,12 +3,13 @@
     <Hamburger></Hamburger>
     <Breadcrumb></Breadcrumb>
     <div class="right-bar">
-      <div>
         <bell-socket/>
-      </div>
-      <div>
-        <img :src="authStore.userinfo.avatar" alt="" @click.stop="handleVisitedP">
-        <div v-if="visitedP">
+      <div class="user-box">
+       <div>
+         <img :src="userInfo.avatar" alt="" @click.stop="handleVisitedP">
+         <span>{{userInfo.userName}}</span>
+       </div>
+        <div class="person" v-if="visitedP">
           <ul>
             <li @click="handleToAuth">个人中心</li>
             <li @click="handleLogout">退出登录</li>
@@ -25,16 +26,24 @@ import Breadcrumb from './Breadcrumb.vue';
 import Hamburger from './Hamburger.vue';
 import {useAuthStore} from '@/stores/userstore.js'
 import BellSocket from "./BellSocket.vue";
+import {getUserInfo} from "../../api/login";
 
 const authStore = useAuthStore()
+const userInfo = ref({})
 const visitedP = ref(false)
 const router = useRouter()
 onMounted(() => {
+  setUserInfo()
   document.addEventListener('click', nullBlockClick)
 })
 onBeforeUnmount(() => {
   document.removeEventListener('click', nullBlockClick)
 })
+const setUserInfo =  () => {
+   getUserInfo().then(res=>{
+    userInfo.value = res.data.user
+  })
+}
 const nullBlockClick = () => {
   visitedP.value = false
 }
@@ -67,23 +76,26 @@ const handleLogout = () => {
     justify-content: flex-start;
     align-items: center;
 
-    > div {
-      width: 40px;
-      position: relative;
-    }
-
-    > div:last-child {
+    .user-box{
       margin-left: 10px;
-
-      img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
-        border: 1px solid #418DFF;
+      position: relative;
+      >div:first-child{
+        display:flex;
+        align-items: center;
+        >span{
+          margin-left: 5px;
+        }
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          cursor: pointer;
+          border: 1px solid #418DFF;
+        }
       }
 
-      > div {
+
+      .person {
         position: absolute;
         width: 80px;
         right: 0;

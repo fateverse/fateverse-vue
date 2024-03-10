@@ -68,10 +68,14 @@ const handleLogin = (instance) => {
     if (!valid) return
     // 发送请求
     await authStore.userLogin(loginForm).then(res=>{
-      if(res) {
-        ElLoading.service({text: '正在加载系统资源',background: '#409eff',lock: true})
+      if (res) {
+        ElLoading.service({
+          lock: true,
+          text: '登录中...',
+          background: 'rgba(0, 0, 0, 0.7)',
+        })
         router.push('/')
-      }else {
+      } else {
         getCode()
       }
     })
@@ -81,7 +85,11 @@ const handleLogin = (instance) => {
 getCode()
 
 onBeforeUnmount(() => {
-  ElLoading.service({text: '正在加载系统资源',background: '#409eff',lock: true}).close()
+  ElLoading.service({
+    lock: true,
+    text: '登录中...',
+    background: 'rgba(0, 0, 0, 0.7)',
+  }).close()
 })
 </script>
 

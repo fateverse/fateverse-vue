@@ -29,6 +29,7 @@ export default defineConfig({
       ],
     }),
     Components({
+      dirs: ['src/components', 'src/fvcomponents'],
       resolvers: [
         // 自动注册图标组件
         IconsResolver({

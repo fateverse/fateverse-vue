@@ -44,10 +44,12 @@
       <el-table-column prop="createTime" label="创建时间"/>
       <el-table-column label="操作" prop="operation">
         <template #default="scope">
-          <el-button type="primary" v-if="scope.row.menuType!=='B'" size="mini" @click="handleAdd(scope.row)" link>新增</el-button>
-          <div v-else style="display: inline-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-          <el-button type="primary" size="mini" @click="handleEdit(scope.row.menuId)" link>修改</el-button>
-          <el-button type="primary" size="mini" @click="handleAssignRoles(scope.row)" link>分配角色</el-button>
+          <el-button type="primary" v-if="scope.row.menuType!=='B'"  @click="handleAdd(scope.row)" link>新增
+          </el-button>
+          <div v-else style="display: inline-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <el-button type="primary"  @click="handleEdit(scope.row.menuId)" link>修改</el-button>
+          <el-button type="primary"  @click="handleAssignRoles(scope.row)" link>分配角色</el-button>
           <popover-delete :name="scope.row.menuName" :type="'菜单'" @delete="handleDel(scope.row.menuId)"/>
         </template>
       </el-table-column>
@@ -91,15 +93,15 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-              <el-form-item label="是否外链">
-                <el-radio-group v-model="form.isFrame">
-                  <el-radio v-for="item in cacheStore.getDict('is_frame')"
-                            :label="item.value"
-                            :key="item.value">
-                    {{ item.label }}
-                  </el-radio>
-                </el-radio-group>
-              </el-form-item>
+            <el-form-item label="是否外链">
+              <el-radio-group v-model="form.isFrame">
+                <el-radio v-for="item in cacheStore.getDict('is_frame')"
+                          :label="item.value"
+                          :key="item.value">
+                  {{ item.label }}
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
           </el-col>
           <el-col :span="11" :offset="1" v-if="form.menuType === 'B'">
             <el-form-item label="权限字符" prop="perms" required>
@@ -132,7 +134,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="11" :offset="1" v-if="form.menuType !== 'B'">
-            <el-form-item label="是否缓存">
+            <el-form-item label="是否缓存页面">
               <el-radio-group v-model="form.isCache">
                 <el-radio v-for="item in cacheStore.getDict('is_cache')"
                           :label="item.value" :key="item.value">
@@ -230,8 +232,12 @@ const getSelectIcon = (val) => {
 const getList = async () => {
   loading.value = true
   getMenuList(queryParams).then(res => {
-    list.value = res.data
-    loading.value = false
+    if (res.code === 1000) {
+      list.value = res.data
+      loading.value = false
+    } else {
+      ElMessage.error(res.msg);
+    }
   })
 }
 
@@ -258,8 +264,8 @@ const restFrom = () => {
   }
 }
 
-const cellClick = (row,column) => {
-  if ("operation" !== column.property){
+const cellClick = (row, column) => {
+  if ("operation" !== column.property) {
     tableTree.value.toggleRowExpansion(row)
   }
 }
@@ -307,16 +313,16 @@ const handleEdit = async (menuId) => {
   title.value = '修改菜单'
   restFrom()
   await getMenuInfo(menuId).then(res => {
-      if(res.data.isFrame==false){
-        res.data.isFrame='0'
-      }else {
-        res.data.isFrame='1'
-      }
-      if(res.data.isCache==false){
-        res.data.isCache='0'
-      }else {
-        res.data.isCache='1'
-      }
+    if (res.data.isFrame == false) {
+      res.data.isFrame = '0'
+    } else {
+      res.data.isFrame = '1'
+    }
+    if (res.data.isCache == false) {
+      res.data.isCache = '0'
+    } else {
+      res.data.isCache = '1'
+    }
     form.value = {...res.data}
   })
   await getMenuOpt(menuId).then(res => {

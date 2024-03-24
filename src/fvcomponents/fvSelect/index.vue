@@ -1,7 +1,7 @@
 <template>
   <el-select v-model="localVal" v-bind="$attrs" @change="change">
     <el-option 
-      v-for="item in options" 
+      v-for="item in localOptions" 
       :label="item.label" 
       :value="item.value" 
       :key="item.value" 
@@ -11,7 +11,8 @@
 </template>
 
 <script setup>
-
+import { useCacheStore } from "@/stores/cache.js";
+const cacheStore = useCacheStore();
 const props = defineProps({
   options: {
     type: Array,
@@ -20,6 +21,10 @@ const props = defineProps({
   modelValue: {
     type: [String, Number, Array],
     default: undefined
+  },
+  cacheKey: {
+    type: String,
+    default: ''
   }
 })
 
@@ -27,8 +32,13 @@ const emits = defineEmits(['change', 'update:modelValue'])
 
 const localVal = ref()
 
+const localOptions = ref([])
+
 watchEffect(()=>{
   localVal.value = props.modelValue
+  props.cacheKey ? 
+  localOptions.value = cacheStore.getDict(props.cacheKey) :
+  localOptions.value = props.options
 })
 
 const change = (val) => {

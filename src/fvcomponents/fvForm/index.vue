@@ -25,7 +25,7 @@
             >
             </component>
             <span v-else>
-              {{ form[item.prop] }}
+              {{ form[item.prop] || '--' }}
             </span>
           </template>
           <template #label>
@@ -100,7 +100,7 @@ onMounted(()=>{
   }))
 })
 
-defineExpose({ getValues, setValues, validate, resetFields })
+defineExpose({ getValues, setValues, validate, resetFields, formInstance, form })
 
 </script>
 

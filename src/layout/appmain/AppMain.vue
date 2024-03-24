@@ -3,10 +3,20 @@
     <router-view v-slot="{ Component, route }">
       <transition name="fade-transform" type="transition" appear mode="out-in">
         <div>
-          <component
-            :is="Component"
-            :key="route.fullPath"
-          ></component>
+          <keep-alive>
+            <suspense>
+              <component v-if="!route.meta.noCache" :is="Component" :key="route.fullPath" />
+              <template #fallback>
+                <div>Loading...</div>
+              </template>
+            </suspense>
+          </keep-alive>
+          <suspense>
+            <component v-if="route.meta.noCache" :is="Component" :key="route.fullPath" />
+            <template #fallback>
+              <div>Loading...</div>
+            </template>
+          </suspense>
         </div>
       </transition>
     </router-view>
